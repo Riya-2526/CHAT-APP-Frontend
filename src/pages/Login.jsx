@@ -22,11 +22,11 @@ export default function Login() {
     password: "",
   });
 
-  useEffect(()=>{
-    if(localStorage.getItem("chat-app-user")){
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]); // Added navigate to the dependency array
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -51,12 +51,13 @@ export default function Login() {
     if (password === "") {
       toast.error("Email and password is required.", toastOptions);
       return false;
-    } else if (username.length === "") {
+    } else if (username.length === 0) {
       toast.error("Email and password is required.", toastOptions);
       return false;
     }
     return true;
   };
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
@@ -84,7 +85,7 @@ export default function Login() {
           />
           <button type="submit">Login</button>
           <span>
-            Don't have an account ? <Link to="/register">Register</Link>
+            Don't have an account? <Link to="/register">Register</Link>
           </span>
         </form>
       </FormContainer>
@@ -95,7 +96,7 @@ export default function Login() {
 
 const FormContainer = styled.div`
   height: 100vh;
-  width: 100hw;
+  width: 100vw; /* Fixed typo from 100hw to 100vw */
   display: flex;
   justify-content: center;
   flex-direction: column;
