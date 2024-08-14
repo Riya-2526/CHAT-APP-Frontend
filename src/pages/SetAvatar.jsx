@@ -24,7 +24,7 @@ function SetAvatar() {
 
   useEffect(() => {
     if (!localStorage.getItem("chat-app-user")) navigate("/login");
-  }, []);
+  }, [navigate]); // Added navigate to the dependency array
 
   const setProfilePicture = async () => {
     if (selectedAvatar === undefined) {
@@ -93,11 +93,11 @@ function SetAvatar() {
                   className={`avatar ${
                     selectedAvatar === index ? "selected" : ""
                   }`}
+                  key={index} // Added key prop to avoid React warnings
                 >
                   <img
                     src={`data:image/svg+xml;base64,${avatar}`}
                     alt="avatar"
-                    key={avatar}
                     onClick={() => setSelectedAvatar(index)}
                   />
                 </div>
