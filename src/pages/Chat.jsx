@@ -28,10 +28,10 @@ function Chat() {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(host);
+      socket.current = io(host); // This will use the constant 'host'
       socket.current.emit("add-user", currentUser._id);
     }
-  }, [currentUser, host]); // Optionally include host if it changes
+  }, [currentUser]); // Remove 'host' from the dependency array
 
   useEffect(() => {
     async function fetchData() {
@@ -45,7 +45,7 @@ function Chat() {
       }
     }
     fetchData();
-  }, [currentUser, navigate, allUsersRoute]); // Add navigate and allUsersRoute to the dependency array
+  }, [currentUser, navigate]); // Remove 'allUsersRoute' from the dependency array
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
