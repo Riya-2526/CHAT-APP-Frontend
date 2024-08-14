@@ -8,7 +8,7 @@ import axios from "axios";
 import { registerRoute } from "../utils/APIRoutes";
 
 export default function Register() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -24,36 +24,35 @@ export default function Register() {
     confirmpassword: "",
   });
 
-  useEffect(()=>{
-    if(localStorage.getItem("chat-app-user")){
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]); // Added navigate to the dependency array
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { password, confirmpassword, username, email } = values;
+      const { password, username, email } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
       });
-      if(data.status===false){
+      if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
-      if(data.status==true){
+      if (data.status === true) { // Changed from == to ===
         localStorage.setItem("chat-app-user", JSON.stringify(data.user));
         navigate("/");
       }
-      
     }
   };
 
   const handleValidation = () => {
     const { password, confirmpassword, email, username } = values;
     if (password !== confirmpassword) {
-      toast.error("Password and ConfirmPassword should be same.", toastOptions);
+      toast.error("Password and Confirm Password should be the same.", toastOptions);
       return false;
     } else if (username.length < 3) {
       toast.error(
@@ -63,7 +62,7 @@ export default function Register() {
       return false;
     } else if (password.length < 8) {
       toast.error(
-        "Password should be greater than or equal to 3 characters.",
+        "Password should be at least 8 characters long.",
         toastOptions
       );
       return false;
@@ -73,9 +72,9 @@ export default function Register() {
     }
     return true;
   };
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
-
   };
 
   return (
@@ -112,7 +111,7 @@ export default function Register() {
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login.</Link>
+            Already have an account? <Link to="/login">Login.</Link>
           </span>
         </form>
       </FormContainer>
@@ -123,7 +122,7 @@ export default function Register() {
 
 const FormContainer = styled.div`
   height: 100vh;
-  width: 100hw;
+  width: 100vw; /* Fixed typo from 100hw to 100vw */
   display: flex;
   justify-content: center;
   flex-direction: column;
